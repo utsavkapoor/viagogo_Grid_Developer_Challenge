@@ -40,9 +40,9 @@ if __name__ == "__main__":
     user_latitude, user_longitude = string.strip().split(",")
     user_latitude, user_longitude = int(user_latitude), int(user_longitude)  # user position
 
-    distance = dict()  # key will be coordinate and value will be distance
-    coordinate = dict()  # key will be coordinate and value will be event_id
-    lowest_price = dict()  # key will be coordinate and value will be lowest price
+    distance = dict()  # key will be event_id and value will be distance
+    coordinate = dict()  # key will be event_id and value will be coordinate
+    lowest_price = dict()  # key will be event_id and value will be lowest price
 
     json_raw = json.loads(input_data)
     min_dist_keys = []  # this list will store 5 least distant co-ordinates along with distance from User Location where there is an event with minimum ticket information
