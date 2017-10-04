@@ -41,7 +41,7 @@ if __name__ == "__main__":
     user_latitude, user_longitude = int(user_latitude), int(user_longitude)  # user position
 
     distance = dict()  # key will be coordinate and value will be distance
-    event_id = dict()  # key will be coordinate and value will be event_id
+    coordinate = dict()  # key will be coordinate and value will be event_id
     lowest_price = dict()  # key will be coordinate and value will be lowest price
 
     json_raw = json.loads(input_data)
@@ -51,26 +51,26 @@ if __name__ == "__main__":
 
     for obj in json_raw:
         dist = manhattan_distance(user_latitude, user_longitude, obj['coordinate'][0], obj['coordinate'][1])
-        distance[tuple(obj['coordinate'])] = dist
-        event_id[tuple(obj['coordinate'])] = obj['event_id']
+        distance[obj['event_id']] = dist
+        coordinate[obj['event_id']] = obj['coordinate']
 
         if obj['ticket_prices']:  ##  Events with avaliable tickets will be shown
-            lowest_price[tuple(obj['coordinate'])] = min(obj['ticket_prices'])
+            lowest_price[obj['event_id']] = min(obj['ticket_prices'])
             if len(min_dist_keys) < 5:
-                min_dist_keys.append([dist, lowest_price[tuple(obj['coordinate'])], tuple(obj['coordinate'])])
+                min_dist_keys.append([dist, lowest_price[obj['event_id']], obj['event_id']])
             else:
                 min_dist_keys = sorted(min_dist_keys, key=itemgetter(0,1))
                 if (dist < min_dist_keys[4][0]) or (
-        dist == min_dist_keys[4][0] and lowest_price[tuple(obj['coordinate'])] < min_dist_keys[4][
+        dist == min_dist_keys[4][0] and lowest_price[obj['event_id']] < min_dist_keys[4][
     1]):  # new coordinate distance is lower or distance is same and minimum price is lower
                     min_dist_keys.pop()
-                    min_dist_keys.append([dist, lowest_price[tuple(obj['coordinate'])], tuple(obj['coordinate'])])
+                    min_dist_keys.append([dist,lowest_price[obj['event_id']], obj['event_id']])
 
     min_dist_keys = sorted(min_dist_keys, key=itemgetter(0,1))
 
     # printing Answer
     print "Closest Events to (" + str(user_latitude) + "," + str(user_longitude) + "):"
     for item in min_dist_keys:
-        print "Event " + event_id[item[2]] + " - $" + str(lowest_price[item[2]]) + ", Distance " + str(
+        print "Event " + item[2] + " - $" + str(lowest_price[item[2]]) + ", Distance " + str(
             item[0])
         # print min_dist_keys
