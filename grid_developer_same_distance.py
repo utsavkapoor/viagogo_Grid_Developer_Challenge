@@ -59,14 +59,14 @@ if __name__ == "__main__":
             if len(min_dist_keys) < 5:
                 min_dist_keys.append([dist, lowest_price[tuple(obj['coordinate'])], tuple(obj['coordinate'])])
             else:
-                min_dist_keys = sorted(min_dist_keys, key=itemgetter(0))
+                min_dist_keys = sorted(min_dist_keys, key=itemgetter(0,1))
                 if (dist < min_dist_keys[4][0]) or (
         dist == min_dist_keys[4][0] and lowest_price[tuple(obj['coordinate'])] < min_dist_keys[4][
     1]):  # new coordinate distance is lower or distance is same and minimum price is lower
                     min_dist_keys.pop()
                     min_dist_keys.append([dist, lowest_price[tuple(obj['coordinate'])], tuple(obj['coordinate'])])
 
-    min_dist_keys = sorted(min_dist_keys, key=itemgetter(0))
+    min_dist_keys = sorted(min_dist_keys, key=itemgetter(0,1))
 
     # printing Answer
     print "Closest Events to (" + str(user_latitude) + "," + str(user_longitude) + "):"
